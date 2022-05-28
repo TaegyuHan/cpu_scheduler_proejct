@@ -1,0 +1,75 @@
+{
+  "processesCount": 10,
+  "data": [
+    {
+      "id": 0,
+      "arrivalTime": 1,
+      "serviceTime": 1,
+      "priority": 0,
+      "timeSlice": 1
+    },
+    {
+      "id": 1,
+      "arrivalTime": 3,
+      "serviceTime": 1,
+      "priority": 0,
+      "timeSlice": 1
+    },
+    {
+      "id": 2,
+      "arrivalTime": 5,
+      "serviceTime": 1,
+      "priority": 0,
+      "timeSlice": 1
+    },
+    {
+      "id": 3,
+      "arrivalTime": 7,
+      "serviceTime": 1,
+      "priority": 0,
+      "timeSlice": 1
+    },
+    {
+      "id": 4,
+      "arrivalTime": 9,
+      "serviceTime": 1,
+      "priority": 0,
+      "timeSlice": 1
+    },
+    {
+      "id": 5,
+      "arrivalTime": 11,
+      "serviceTime": 1,
+      "priority": 0,
+      "timeSlice": 1
+    },
+    {
+      "id": 6,
+      "arrivalTime": 13,
+      "serviceTime": 1,
+      "priority": 0,
+      "timeSlice": 1
+    },
+    {
+      "id": 7,
+      "arrivalTime": 15,
+      "serviceTime": 1,
+      "priority": 0,
+      "timeSlice": 1
+    },
+    {
+      "id": 8,
+      "arrivalTime": 17,
+      "serviceTime": 1,
+      "priority": 0,
+      "timeSlice": 1
+    },
+    {
+      "id": 9,
+      "arrivalTime": 19,
+      "serviceTime": 1,
+      "priority": 0,
+      "timeSlice": 1
+    }
+  ]
+}

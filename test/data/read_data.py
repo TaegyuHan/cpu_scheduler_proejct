@@ -28,4 +28,10 @@ class TestReadJson(unittest.TestCase):
         a2 = r.get_data_class_processes()
         print(id(a1))
         print(id(a2))
+        print(a1)
 
+    def test_get_dataframe(self):
+        """ 데이터 프레임 확인하기 """
+        r = ReadJson()
+        a1 = r.get_dataframe()
+        print(a1)

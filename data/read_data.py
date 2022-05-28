@@ -1,6 +1,8 @@
 import json
 import os
 from copy import deepcopy
+import pandas as pd
+
 from data.process import (
     Time, Count, Process
 )
@@ -14,7 +16,7 @@ class ReadJson:
         폴더 경로 : ./json
     """
 
-    DATA_FILE_NAME = "test.json"
+    DATA_FILE_NAME = "data.json"
 
     def __init__(self):
         # json 데이터 읽는 부분
@@ -27,14 +29,10 @@ class ReadJson:
 
         # 0인 경우
         if self._processes_count == Count.ZERO:
-            raise Exception(
-                f"프로세스 수가 {self._processes_count}입니다. 프로세스를 넣어주세요"
-            )
+            raise Exception(f"프로세스 수가 {self._processes_count}입니다. 프로세스를 넣어주세요")
         # 음수인 경우
-        elif self._processes_count <= Count.ZERO:
-            raise Exception(
-                f"프로세스 수가 {self._processes_count}입니다. 양수 값으로 넣어주세요"
-            )
+        elif self._processes_count < Count.ZERO:
+            raise Exception(f"프로세스 수가 {self._processes_count}입니다. 양수 값으로 넣어주세요")
 
         # 프로세스 디테일
         self._processes = self._data["data"]
@@ -44,7 +42,7 @@ class ReadJson:
             raise Exception("json 데이터에 프로세스가 존재하지 않습니다.")
 
         # 프로세스 디테일 수 확인
-        if self._processes_count != len(self._processes):
+        elif self._processes_count != len(self._processes):
             raise Exception("json 파일의 processesCount와 data의 프로세스 수가 같지 않습니다.")
 
         self._check_process_data()
@@ -68,19 +66,19 @@ class ReadJson:
             if proces["arrivalTime"] < Time.ZERO:
                 raise Exception("arrivalTime 음수에 도착할 수 없습니다. 0이상의 정수로 입력해주세요.")
 
-            if proces["serviceTime"] < Time.ZERO:
+            elif proces["serviceTime"] < Time.ZERO:
                 raise Exception("serviceTime 음수를 가질 수 없습니다. 1이상의 양의 정수로 입력해주세요.")
 
-            if proces["priority"] < Time.ZERO:
+            elif proces["priority"] < 0:
                 raise Exception("priority는 양의 정수로 입력해주세요.")
 
-            if proces["timeSlice"] <= Time.ZERO:
+            elif proces["timeSlice"] <= Time.ZERO:
                 raise Exception("timeSlice는 1이상의 양의 정수로 입력해주세요.")
 
         if len(id_same_check) != self._processes_count:
             raise Exception("모든 프로세스 id가 달라야 합니다.")
 
-        if len(arrival_same_check) != self._processes_count:
+        elif len(arrival_same_check) != self._processes_count:
             raise Exception("동일한 시간에 도착하는 프로세스는 없어야 합니다.")
 
     def _init_make_process_data_class(self):
@@ -105,5 +103,19 @@ class ReadJson:
         """ 데이터 프로세스 클래스 얻기 """
         return deepcopy(self._data_class_processes)
 
+    def get_pandas_dataframe(self):
+        """ 판다스 데이터 프레임 생성 """
+        tmp_data = {
+            "id": [],
+            "arrivalTime": [],
+            "serviceTime": [],
+            "priority": [],
+            "timeSlice": [],
+        }
+        for row in self._processes:
+            for key, value in row.items():
+                tmp_data[key].append(value)
+
+        return pd.DataFrame.from_dict(tmp_data)
 
 read_json = ReadJson()

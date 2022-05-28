@@ -1,5 +1,5 @@
 import unittest
-from schedule.first_come_first_served import FCFS
+from data.statistics_table import get_pandas_statistics_table
 
 class TestReadJson(unittest.TestCase):
 
@@ -21,8 +21,6 @@ class TestReadJson(unittest.TestCase):
         """각각의 테스트 메소드가 끝날 때 실행 됩니다."""
         print('tearDown')
 
-    def test_init(self):
-        """ 생성 테스트 """
-        f = FCFS()
-        f.run()
-        print(f.get_pandas_data_frame())
+    def test_get_pandas_statistics_table(self):
+        """ 데이터 프레임 확인하기 """
+        get_pandas_statistics_table("FCFS")

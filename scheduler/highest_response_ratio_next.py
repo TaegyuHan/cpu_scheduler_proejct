@@ -1,36 +1,25 @@
 import pandas as pd
-from data.read_data import read_json
-from collections import deque
 from data.process import Time
+import scheduler
 
 
-class FCFS:
+class HRN(scheduler.AbstractSchedule):
     """
-        FCFS 스케줄링
+        HRN 스케줄링
 
-        First Come First Served (FCFS)
-        준비큐에 도착한 순서대로 CPU를 할당하는 비선점형 방식으로,
-        선입선출 스케줄링이라고도 한다.
+        Highest Response Ratio Next (HRN)
+        SJF 스케줄링에서 발생할 수 있는 아사 현상을 해결 하기 위해
+        만들어진 비선점형 알고리즘으로, 최고 응답률 우선 스케줄링
+        이라고도 한다.
+
+        우선순위 = (대기 시간 + CPU 사용시간 ) / CPU 사용시간
     """
-    STATE_RUN = "run"
-    STATE_WAIT = "wait"
-    NAME = "First Come First Served (FCFS)"
-    CPU_FULL = 1
-    PANDAS_COL_NAMES = ["state", "process", "start", "finish", "time"]
+
+    NAME = "Highest Response Ratio Next (HRN)"
 
     def __init__(self):
-        # cpu process data
-        self._creation = read_json.get_data_class_processes()
-        self._process_count = len(self._creation)
-        self._ready_queue = deque([])
-        self._end_process = []
-        self._cpu = []
-        self._data_frame_list = []
-
-        # ploty line data
-        self.arrival_times = []
-        self.end_times = []
-
+        super().__init__()
+        self._ready_queue = []
         self._run()
 
     def _update_ready(self):
@@ -51,10 +40,22 @@ class FCFS:
     def _cpu_empty_check(self):
         """ cpu 장치 """
         # cpu에 프로세스 실행중
-        if len(self._cpu) == self.CPU_FULL:
+        if len(self._cpu) == scheduler.CPU_FULL:
             return False
         # cpu 실행 안할 때
         return True
+
+    def _pop_hrn_max(self):
+        """ hrn 가장 큰값 반환 """
+        check_hrn_value = 0
+        for process in self._ready_queue:
+            if check_hrn_value <= (hrm_value := process.get_hrn(self.time)):
+                check_hrn_value = hrm_value
+                pop_process = process
+
+        self._ready_queue.remove(pop_process)
+
+        return pop_process
 
     def _cpu_work(self):
         """ cpu 프로세스 동작하기 """
@@ -76,7 +77,7 @@ class FCFS:
         # 준비 큐에 데이터 없으면 PASS
         if not self._ready_queue: return
 
-        process = self._ready_queue.popleft()
+        process = self._pop_hrn_max()
         wait_time = self.time - process.stop_time
 
         # 프로세스가 기다린 시간 넣기
@@ -107,7 +108,7 @@ class FCFS:
 
     def _time_out(self):
         """ 시간 초과 """
-        # FSFC 알고리즘은 시간초과 없음
+        # HRN 알고리즘은 시간초과 없음
 
     def _break_check(self):
         """ 프로세스 실행 전부 완료했는지 확인하기 """

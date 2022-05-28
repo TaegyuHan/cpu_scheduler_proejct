@@ -1,20 +1,32 @@
 import plotly.express as px
-from schedule.first_come_first_served import FCFS
+from scheduler.first_come_first_served import FCFS
+from scheduler.shortest_job_next import SJF
+from scheduler.highest_response_ratio_next import HRN
+from scheduler.round_robin import RR
+from scheduler.shortest_remaining_time import SRT
+from scheduler.non_preemptive_priority import NPS
+from scheduler.preemptive_priority import PS
 
 
-class TimeLinePlot:
+class TimeGanttPlot:
     """
         프로세스 스케줄링 시각화
     """
     MODLE = {
-        "fcfs": FCFS()
+        'FCFS': FCFS(),
+        'SJF': SJF(),
+        'HRN': HRN(),
+        'RR': RR(),
+        'SRT': SRT(),
+        'NPP': NPS(),
+        'PP': PS()
     }
 
     @staticmethod
     def show_plot(logic_name: str):
         """ 원하는 로직에 맞춰서 시각화 보여주기 """
 
-        model = TimeLinePlot.MODLE[logic_name] # 모델 선택
+        model = TimeGanttPlot.MODLE[logic_name] # 모델 선택
         df = model.get_pandas_data_frame() # 데이터 프레임
 
         # 시각화 객체
@@ -30,30 +42,16 @@ class TimeLinePlot:
         fig.layout.xaxis.type = 'linear' # x축 시간에서 숫자로 변경
 
         # state : run < 작동 기간 데이터
-        fig.data[0].x = df["time"][df.state == model.STATE_RUN].tolist()
+
         try:
+            fig.data[0].x = df["time"][df.state == model.STATE_RUN].tolist()
             # state : wait < 대기 시간 데이터
             fig.data[1].x = df["time"][df.state == model.STATE_WAIT].tolist()
         except IndexError: pass# 대기상태가 없는 경우
 
-        # 프로세스 시작, 종료선
-        for time in model.arrival_times:
-            fig.add_vline(x=time,
-                          line_width=2,
-                          line_color="black",
-                          line_dash="dash",
-                          annotation_text=f" {time}")
-
-        for time in model.end_times:
-            fig.add_vline(x=time,
-                          line_width=2,
-                          line_color="black",
-                          line_dash="dash",
-                          annotation_text=f" {time}")
-
         fig.update_traces(textfont_size=14) # 프로세스 라벨 폰트 사이즈
-        # print(fig)
         return fig
 
+
 if __name__ == '__main__':
-    TimeLinePlot.show_plot("fcfs").show()
+    TimeGanttPlot.show_plot("fcfs").show()
