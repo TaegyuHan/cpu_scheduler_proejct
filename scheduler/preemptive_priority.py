@@ -9,8 +9,8 @@ class PS(scheduler.AbstractSchedule):
         선점 스케쥴링(Preemptive Scheduling) 스케줄링
 
         Preemptive Scheduling (NPS)
-        선점 스케쥴링(Preemptive Scheduling)은 하나의 프로세스가 CPU를
-        점유하고 있을 때 다른 프로세스가 CPU를 뺴앗아 차지 할 수 있는 방법
+        선점 스케줄링(Preemptive Scheduling)은 하나의 프로세스가 CPU를
+        점유하고 있을 때 다른 프로세스가 CPU를 빼앗아 차지 할 수 있는 방법
     """
 
     NAME = "Preemptive Scheduling (PS)"

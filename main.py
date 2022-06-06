@@ -40,7 +40,7 @@ def main_panel():
                                'color': '#FFFFFF'}),
 
                 html.Label('CPU 스케줄러'),
-                dcc.RadioItems(['FCFS', 'SJF', 'HRN', 'RR', 'SRT', 'NPP', 'PP'],
+                dcc.RadioItems(['FCFS', 'SJF', 'HRN', 'RR', 'SRT', 'NPS', 'PS'],
                                value='FCFS',
                                id="scheduler-input"),
 
