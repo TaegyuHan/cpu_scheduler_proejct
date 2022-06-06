@@ -6,6 +6,8 @@
 운영체제 과목을 수강하면서 제작한 CPU 스케줄링 모니터링 어플리케이션 입니다!
 
 ## CPU 스케줄러 알고리즘 APP UI
+<img src="/img/ui.png" width="100%" />
+
 
 - First Come First Served : FCFS
 준비큐에 도착한 순서대로 CPU를 할당하는 비선점형 방식으로, 선입선출 스케줄링이라 부릅니다.
@@ -47,4 +49,3 @@ SJF 스케줄링과 라운드 로빈 스케줄링을 혼합한 방식으로, 최
 선점 스케줄링(Preemptive Scheduling)은 하나의 프로세스가 CPU를 점유하고 있을 때 다른 프로세스가 CPU를 빼앗아 차지 할 수 있는 방법입니다.
 <img src="/img/ps.png" width="100%" />
 <br>
-
