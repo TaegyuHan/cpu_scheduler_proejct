@@ -10,7 +10,7 @@
 - First Come First Served : FCFS
 <br>
 준비큐에 도착한 순서대로 CPU를 할당하는 비선점형 방식으로, 선입선출 스케줄링이라 부릅니다.
-![img.png](img/fcfs.png)
+<img src="/img/fcfs.png" width="100%" />
 <br>
 
 
